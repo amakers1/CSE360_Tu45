@@ -11,8 +11,6 @@ public class BasePageViewBuilder extends HBox{
 	//Variable List: 
 	//*******************
 	
-	//Testing GitHub
-	
 	//BorderPane:
 	protected BorderPane mainPane;
 	
@@ -30,24 +28,32 @@ public class BasePageViewBuilder extends HBox{
 		logoutButton = new Button("Logout");
 		messagePortalButton = new Button("Message Portal");
 		
+		userStatus = "Patient";
 		mainPane = new BorderPane();
 		mainPane.setStyle("-fx-background-color: #5E0202;"); //color is #5E0202
 		
+		buildPage();
+
 		this.setPadding(new Insets(10,10,10,10));
 		this.getChildren().add(mainPane);
 	}
 	
-	/*
-	private void configureBuildPage() {
-		if(userStatus == "Patient") {
-			setPatientScreen;
-		}else if(userStatus == "Nurse") {
-			setNurseScreen;
-		}else if(userStatus == "Doctor"){
-			setDoctorScreen;
-		}else{
-		Error;
+	
+	protected void buildPage() {
+		try {
+			if(userStatus == "Patient") {
+				PatientBaseViewPage patientViewPage = new PatientBaseViewPage();
+				mainPane.getChildren().add(patientViewPage);
+			}else if(userStatus == "Nurse") {
+				//setNurseScreen;
+			}else if(userStatus == "Doctor"){
+				//setDoctorScreen;
+			}else{
+				return;
+			}
+		}catch(Exception e) {
+			System.out.print(e);
 		}
 	}
-	*/
+	
 }
