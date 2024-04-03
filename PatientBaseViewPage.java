@@ -38,7 +38,7 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 	//GridPane:
 	protected GridPane contactGrid;
 	
-	
+	//test
 	
 	public PatientBaseViewPage() {
 		super();
