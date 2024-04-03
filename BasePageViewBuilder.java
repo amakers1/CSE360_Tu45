@@ -1,10 +1,13 @@
 package application;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
 public class BasePageViewBuilder extends HBox{
 	
@@ -22,19 +25,19 @@ public class BasePageViewBuilder extends HBox{
 	
 	//String:
 	protected String userStatus;
+
 	
-	
-	public BasePageViewBuilder() {
+	public BasePageViewBuilder(String userStatus) {
 		logoutButton = new Button("Logout");
 		messagePortalButton = new Button("Message Portal");
 		
-		userStatus = "Patient";
+		this.userStatus = userStatus;
 		mainPane = new BorderPane();
-		mainPane.setStyle("-fx-background-color: #5E0202;"); //color is #5E0202
-		
+		mainPane.setStyle("-fx-background-color: #5E0202;" + "-fx-border-color: #FFC627;" + "-fx-border-width: 3;\n");//color is #5E0202
+
 		buildPage();
 
-		this.setPadding(new Insets(10,10,10,10));
+		//this.setPadding(new Insets(10,10,10,10));
 		this.getChildren().add(mainPane);
 	}
 	
@@ -42,7 +45,7 @@ public class BasePageViewBuilder extends HBox{
 	protected void buildPage() {
 		try {
 			if(userStatus == "Patient") {
-				PatientBaseViewPage patientViewPage = new PatientBaseViewPage();
+				PatientBaseViewPage patientViewPage = new PatientBaseViewPage(userStatus);
 				mainPane.getChildren().add(patientViewPage);
 			}else if(userStatus == "Nurse") {
 				//setNurseScreen;
