@@ -2,7 +2,6 @@ package application;
 
 
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,8 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+
 
 public class PatientBaseViewPage extends BasePageViewBuilder{
 	
@@ -160,8 +158,8 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 		mainPane.setRight(rightPane);
 		
 		updateButton.setOnAction(e -> getData());
-		appointmentSummaryButton.setOnAction(e -> changeViewPane());
-		contactInfoButton.setOnAction(e -> changeViewPane());
+		appointmentSummaryButton.setOnAction(e -> contactInfoPane.getChildren().setAll(appointmentSummaryPane));
+		contactInfoButton.setOnAction(e -> contactInfoPane.getChildren().setAll(contactGrid));
 		
 	}
 	
@@ -169,40 +167,38 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 		try {
 			if(firstNameTextField.getText().isBlank() || lastNameTextField.getText().isBlank() || emailTextField.getText().isBlank() || 
 					dateOfBirthTextField.getText().isBlank() || phoneNumberTextField.getText().isBlank()) {
-				
+				errorLabel.setText("At least one field is empty!");
+				errorLabel.setEllipsisString("At least one field is empty!");
 				throw new Exception();
 			}
+			ContactInformationValidation contactInfoValidation = new ContactInformationValidation();
+			
+			
 			firstName = firstNameTextField.getText();
 			lastName = lastNameTextField.getText();
 			email = emailTextField.getText();
 			dateOfBirth = Integer.parseInt(dateOfBirthTextField.getText());
 			phoneNumber = Integer.parseInt(phoneNumberTextField.getText());
 			
+			if(contactInfoValidation.validateContactInfo(firstName, lastName, email, dateOfBirth, phoneNumber) == false) {
+				errorLabel.setText("A field has too many characters!");
+				errorLabel.setEllipsisString("A field has too many characters!");
+				throw new Exception();
+			}
+			
 			System.out.print(firstName + lastName + email + dateOfBirth + phoneNumber);
 			
-			errorLabel.setText("");
+			errorLabel.setText("Information Updated!");
 		}catch(NumberFormatException e) {
 			System.out.print(e);
 			errorLabel.setText("Date of Birth and Phone Number need to be numbers!");
-			errorLabel.setEllipsisString("Date of Birth and Phone Number need\n to be numbers!");
+			errorLabel.setEllipsisString("Date of Birth and Phone Number need to be numbers!");
 			errorLabel.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 15; -fx-text-fill: #FFC627");
 			
 			
 		}catch(Exception e) {
 			System.out.print(e);
-			errorLabel.setText("At least one field is empty!");
-			errorLabel.setEllipsisString("At least one field is empty!");
+			
 		}
 	}
-	
-	private void changeViewPane() {
-		
-		if(contactInfoPane.getChildren().contains(contactGrid)) {
-			contactInfoPane.getChildren().setAll(appointmentSummaryPane);
-		}else {
-			contactInfoPane.getChildren().setAll(contactGrid);
-		}
-		
-	}
-
 }
