@@ -9,10 +9,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 
 public class PatientBaseViewPage extends BasePageViewBuilder{
@@ -57,8 +59,8 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 	//Ints:
 	protected int dateOfBirth, phoneNumber;
 	
-	public PatientBaseViewPage(String userStatus) {
-		super(userStatus);
+	public PatientBaseViewPage(String userStatus, Stage primaryStage) {
+		super(userStatus, primaryStage);
 		
 	}
 	
@@ -160,6 +162,7 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 		updateButton.setOnAction(e -> getData());
 		appointmentSummaryButton.setOnAction(e -> contactInfoPane.getChildren().setAll(appointmentSummaryPane));
 		contactInfoButton.setOnAction(e -> contactInfoPane.getChildren().setAll(contactGrid));
+		
 		
 	}
 	
