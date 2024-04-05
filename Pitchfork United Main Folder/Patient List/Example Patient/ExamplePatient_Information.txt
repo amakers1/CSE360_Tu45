@@ -1,0 +1,7 @@
+This txt file would contain the contact info line by line here is an example:
+UserName
+FirstName
+LastName
+DateOfBirth
+email
+phoneNumber

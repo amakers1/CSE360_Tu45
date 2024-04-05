@@ -1,0 +1,2 @@
+parse through this list and make a string array of patients to make patient list
+ExamplePatient
