@@ -22,17 +22,18 @@ public class BasePageViewBuilder extends HBox{
 	protected Label welcomeLabel;
 	
 	//String:
-	protected String userStatus;
+	protected String userStatus, userName;
 	
 	protected Stage primaryStage;
 	
 
 
 	
-	public BasePageViewBuilder(String userStatus, Stage primaryStage) {
+	public BasePageViewBuilder(String userStatus, Stage primaryStage, String userName) {
 		logoutButton = new Button("Logout");
 		messagePortalButton = new Button("Message Portal");
 		
+		this.userName = userName; //this variable is the name of the user whether doctor, patient or nurse need this variable to access user files so it needs to be grabbed when user signs in
 		this.userStatus = userStatus;
 		mainPane = new BorderPane();
 		mainPane.setStyle("-fx-background-color: #5E0202;" + "-fx-border-color: #FFC627;" + "-fx-border-width: 3;\n");//color is #5E0202
@@ -52,7 +53,7 @@ public class BasePageViewBuilder extends HBox{
 	protected void buildPage() {
 		try {
 			if(userStatus == "Patient") {
-				PatientBaseViewPage patientViewPage = new PatientBaseViewPage(userStatus, primaryStage);
+				PatientBaseViewPage patientViewPage = new PatientBaseViewPage(userStatus, primaryStage, userName);
 				mainPane.getChildren().add(patientViewPage);
 			}else if(userStatus == "Nurse") {
 				//setNurseScreen;
@@ -67,7 +68,7 @@ public class BasePageViewBuilder extends HBox{
 	}
 	
 	private void changeToMessagePortal() {
-		MessageViewBuilder messageViewBuilder = new MessageViewBuilder(userStatus, primaryStage);
+		MessageViewBuilder messageViewBuilder = new MessageViewBuilder(userStatus, primaryStage, userName);
 		messageViewBuilder.buildMessagePage();
 		
 	}

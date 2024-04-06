@@ -54,14 +54,14 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 	protected ImageView imageView;
 	
 	//Strings:
-	protected String firstName, lastName, email;
+	protected String firstName, lastName, email, patientUserName;
 	
 	//Ints:
 	protected int dateOfBirth, phoneNumber;
 	
-	public PatientBaseViewPage(String userStatus, Stage primaryStage) {
-		super(userStatus, primaryStage);
-		
+	public PatientBaseViewPage(String userStatus, Stage primaryStage, String patientUserName) {
+		super(userStatus, primaryStage, patientUserName);
+		this.patientUserName = patientUserName;
 	}
 	
 	@Override
@@ -126,7 +126,7 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 		contactGrid = new GridPane();
 		contactGrid.setVgap(75);
 		contactGrid.setHgap(250);
-		contactGrid.addColumn(0, firstNameLabel, lastNameLabel, dateOfBirthLabel, emailLabel, phoneNumberLabel, errorLabel);
+		contactGrid.addColumn(0, firstNameLabel, lastNameLabel, dateOfBirthLabel, emailLabel, phoneNumberLabel);
 		contactGrid.addColumn(1, firstNameTextField, lastNameTextField, dateOfBirthTextField, emailTextField, phoneNumberTextField, updateButton);
 		topPaneGrid = new GridPane();
 		topPaneGrid.setVgap(50);
@@ -150,7 +150,7 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 		centerPane.getChildren().addAll(contactGrid);
 		
 		topPane.setPadding(new Insets(30,100,57,100));
-		contactInfoPane.setPadding(new Insets(30,30,120,30));
+		contactInfoPane.setPadding(new Insets(30,30,101,30));
 		leftPane.setPadding(new Insets(100,100,100,10));
 		rightPane.setPadding(new Insets(100,57,100,100));
 		contactInfoPane.getChildren().add(centerPane);
@@ -158,6 +158,7 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 		mainPane.setCenter(contactInfoPane);
 		mainPane.setLeft(leftPane);
 		mainPane.setRight(rightPane);
+		mainPane.setBottom(new HBox(errorLabel));
 		
 		updateButton.setOnAction(e -> getData());
 		appointmentSummaryButton.setOnAction(e -> contactInfoPane.getChildren().setAll(appointmentSummaryPane));
@@ -183,7 +184,7 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 			dateOfBirth = Integer.parseInt(dateOfBirthTextField.getText());
 			phoneNumber = Integer.parseInt(phoneNumberTextField.getText());
 			
-			if(contactInfoValidation.validateContactInfo(firstName, lastName, email, dateOfBirth, phoneNumber) == false) {
+			if(contactInfoValidation.validateContactInfo(patientUserName, firstName, lastName, email, dateOfBirth, phoneNumber) == false) {
 				errorLabel.setText("A field has too many characters!");
 				errorLabel.setEllipsisString("A field has too many characters!");
 				throw new Exception();
@@ -204,4 +205,8 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 			
 		}
 	}
-}
+	
+	public void readName() {
+		
+	}
+ }

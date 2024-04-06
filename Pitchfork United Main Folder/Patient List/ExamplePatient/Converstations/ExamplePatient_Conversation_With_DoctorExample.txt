@@ -1,0 +1,3 @@
+Example Converstion the /ExamplePatient and /DoctorExample is to show who is talking and identify who patient is talking to two identical files to be created to keep same convo
+/ExamplePatient Message Test
+/DoctorExample Message Test

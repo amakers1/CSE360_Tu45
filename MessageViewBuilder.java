@@ -17,7 +17,7 @@ public class MessageViewBuilder extends HBox{
 	//Variables: 
 	
 	//Strings:
-	protected String userStatus;
+	protected String userStatus, userName;
 	
 	//Buttons:
 	protected Button backButton, logoutButton;
@@ -41,11 +41,12 @@ public class MessageViewBuilder extends HBox{
 	//Dropdown:
 	protected ComboBox<String> messageDropDown;
 	
-	public MessageViewBuilder(String userStatus , Stage primaryStage) {
+	public MessageViewBuilder(String userStatus , Stage primaryStage,String userName) {
 		//Initialize Variables:
 		
 		//Strings
 		this.userStatus = userStatus;
+		this.userName = userName;
 		
 		//Buttons:
 		backButton = new Button("<- Back");
@@ -105,7 +106,7 @@ public class MessageViewBuilder extends HBox{
 	
 	public void backButtonImplementation() {
 		
-		BasePageViewBuilder basePageViewBuilder = new BasePageViewBuilder(userStatus, primaryStage);
+		BasePageViewBuilder basePageViewBuilder = new BasePageViewBuilder(userStatus, primaryStage, userName);
 		primaryStage.setScene(new Scene(basePageViewBuilder, 2000, 2000));
 		primaryStage.setFullScreen(true);
 		primaryStage.show();
