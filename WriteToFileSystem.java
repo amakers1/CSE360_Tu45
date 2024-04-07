@@ -105,12 +105,12 @@ public class WriteToFileSystem {
 	public boolean updateContactInfo(String patientUserName, String firstName, String lastName, String email, int dateOfBirth, int phoneNumber) {
 		
 		String fileName = patientUserName + "_Information.txt";
-		String pathToPatientFolder = "Pitchfork United Main Folder/Patient List/" + patientUserName;
+		String pathToPatientFolder = "Pitchfork United Main Folder/Patient List/" + patientUserName; //path to access correct file
 		String fileContent = firstName + "\n" + lastName + "\n" + dateOfBirth + "\n" + email + "\n" + phoneNumber + "\n";
 		
 		String filePath = pathToPatientFolder + File.separator + fileName;
 		
-		try (FileWriter writer = new FileWriter(filePath)) {
+		try (FileWriter writer = new FileWriter(filePath)) { //writes the content that needs to be updated
 			writer.write(fileContent);
 			return true;
 		}catch (IOException e){
@@ -120,18 +120,20 @@ public class WriteToFileSystem {
 		
 	}
 	
+	//this method is used to save the username and password of a doctor, patient or nurse
 	public void saveUsernameAndPassword(String userName, String username, String password, String userStatus) {
 		
 		String fileName = userName + "_Username_Password.txt";
-		String pathToFolder = "Pitchfork United Main Folder/" + userStatus + " List/" + userName;
+		String pathToFolder = "Pitchfork United Main Folder/" + userStatus + " List/" + userName; //path to access the correct file
 		String fileContent = username + "\n" + password + "\n";
 		
 		String filePath = pathToFolder + File.separator + fileName;
 		
-		try (FileWriter writer = new FileWriter(filePath)) {
+		try (FileWriter writer = new FileWriter(filePath)) { //writes the username and password
 			writer.write(fileContent);
 		}catch (IOException e){
 			e.printStackTrace();
 		}
 	}
+
 }

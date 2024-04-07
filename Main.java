@@ -14,8 +14,6 @@ public class Main extends Application {
 			BasePageViewBuilder basePageViewBuilder = new BasePageViewBuilder(userStatus, primaryStage, "ExamplePatient");
 			root.getChildren().add(basePageViewBuilder);
 			Scene scene = new Scene(root,2000,2000);
-			WriteToFileSystem saveUP = new WriteToFileSystem();
-			saveUP.saveUsernameAndPassword("NurseExample", "Username", "Password", "Nurse");
 			primaryStage.setTitle("Pitchforks United");
 			primaryStage.setScene(scene);
 			primaryStage.setFullScreen(true);

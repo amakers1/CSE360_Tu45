@@ -5,12 +5,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import java.io.File;
+
 
 public class MessageViewBuilder extends HBox{
 	
@@ -20,7 +26,7 @@ public class MessageViewBuilder extends HBox{
 	protected String userStatus, userName;
 	
 	//Buttons:
-	protected Button backButton, logoutButton;
+	protected Button backButton, logoutButton, sendButton;
 	
 	//Labels:
 	protected Label messagePortalLabel, helloLabel;
@@ -33,13 +39,19 @@ public class MessageViewBuilder extends HBox{
 	protected BorderPane mainPane;
 	
 	//GridPanes:
-	protected GridPane topHalfPageContainer;
+	protected GridPane topHalfPageContainer, messageContainer;
+	
+	//TextArea:
+	protected TextArea typeMessage;
 	
 	//Stages:
 	protected Stage primaryStage;
 	
 	//Dropdown:
 	protected ComboBox<String> messageDropDown;
+	
+	//ScrollPane:
+	protected ScrollPane scroll;
 	
 	public MessageViewBuilder(String userStatus , Stage primaryStage,String userName) {
 		//Initialize Variables:
@@ -53,7 +65,14 @@ public class MessageViewBuilder extends HBox{
 		backButton.setEllipsisString("<- Back");
 		logoutButton = new Button("Logout");
 		logoutButton.setEllipsisString("Logout");
+		sendButton = new Button("Send");
+		sendButton.setEllipsisString("Send");
 		backButton.setOnAction(e -> backButtonImplementation());
+		
+		//TextArea:
+		typeMessage = new TextArea();
+		typeMessage.setMaxSize(400, 50);
+		typeMessage.setPromptText("Type Message...");
 		
 		//Labels:
 		messagePortalLabel = new Label("Message Portal");
@@ -75,30 +94,70 @@ public class MessageViewBuilder extends HBox{
 		topHalfPageContainer.setHgap(175);
 		topHalfPageContainer.setVgap(30);
 		topHalfPageContainer.setPadding(new Insets(5,5,5,5));
+		messageContainer = new GridPane();
+		messageContainer.setVgap(20);
+		messageContainer.setHgap(25);
+		messageContainer.setMaxSize(1000, 500);
+		messageContainer.setStyle("-fx-background-color: White;" + "-fx-border-color: Black;" + "-fx-border-width: 3;\n");
+		
+		//ScrollPane:
+		scroll = new ScrollPane();
+		scroll.setContent(messageContainer);
+		scroll.setMaxSize(1000, 500);
+		scroll.setFitToWidth(true);
+		scroll.setFitToHeight(true);
 		
 		//DropDown:
 		messageDropDown = new ComboBox<>();
+		messageDropDown.setPromptText("Message");
+		messageDropDown.setMinSize(150, 25);
+		
 		
 		//Stages:
 		this.primaryStage = primaryStage;
 		
-		
-	}
-	
-	public void buildMessagePage() {
-		//TopHalfPageContainer:
+			//TopHalfPageContainer:
 		topHalfPageContainer.add(backButton, 0, 0);
 		topHalfPageContainer.add(messagePortalLabel, 3, 0);
 		topHalfPageContainer.add(logoutButton, 5, 0);
 		topHalfPageContainer.add(messageDropDown, 2, 1);
 		topHalfPageContainer.add(imageView, 4, 1);
 		
+		//MessageContainer
+		messageContainer.add(sendButton,0,0);
+		messageContainer.add(typeMessage, 0, 1);
+		
+		
 		mainPane.setTop(topHalfPageContainer);
+		mainPane.setCenter(scroll);
 		
 		//Set stage
 		primaryStage.setScene(new Scene(mainPane,2000,2000));
 		primaryStage.setFullScreen(true);
 		primaryStage.show();
+	}
+	
+	public void buildMessagePage() {
+	
+		
+		try {
+			if(userStatus == "Patient") {
+				PatientMessageView patientView = new PatientMessageView(userStatus, primaryStage, userName);
+				patientView.buildMessagePage();
+			}else if(userStatus == "Nurse") {
+				//setNurseScreen;
+			}else if(userStatus == "Doctor"){
+				//setDoctorScreen;
+			}else{
+				return;
+			}
+		}catch(Exception e) {
+			System.out.print(e);
+		}
+		
+
+
+		
 
 		
 		
