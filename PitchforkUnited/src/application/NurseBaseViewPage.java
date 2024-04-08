@@ -1,5 +1,8 @@
 package application;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -89,7 +92,7 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		//Labels:
 		
 		// TOP SIDE
-		welcomeNurseLabel = new Label("Welcome Nurse" + this.nurseUserName);
+		welcomeNurseLabel = new Label("Welcome Nurse");
 		welcomeNurseLabel.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
 		
 		patientsTitleLabel = new Label("Patients");
@@ -185,16 +188,27 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		leftVBox.getChildren().addAll(patientsTitleLabel, patientList, messagePortalButton, imageView);
 		
 		// BorderPane
-		mainBorderPane = new BorderPane();
+		
+		topHBox.setPadding(new Insets(30,100,57,100));
+		//contactInfoPane.setPadding(new Insets(30,30,101,30));
+		leftVBox.setPadding(new Insets(100,100,100,10));
+		vitalsAndHistoryVBox.setPadding(new Insets(100,57,100,100));
+		
 		mainPane.setTop(topHBox);
 		//mainPane.setCenter(contactInfoPane);
 		mainPane.setLeft(leftVBox);
 		mainPane.setRight(vitalsAndHistoryVBox);
+		mainPane.setBottom(new HBox(errorLabel));
+		//mainBorderPane = new BorderPane();
+		//mainPane.setTop(topHBox);
+		//mainPane.setCenter(contactInfoPane);
+		//mainPane.setLeft(leftVBox);
+		//mainPane.setRight(vitalsAndHistoryVBox);
 		//mainPane.setBottom(new HBox(errorLabel));
 		
 		saveButton.setOnAction(e -> writeFile()); // writes the patient file based on the information put into the vitals
-		logoutButton.setOnAction(e -> XXXXXXX); // ***** NEED TO GO BACK TO LOGIN SCREEN
-		messagePortalButton.setOnAction(e -> XXXXXXXXXX); // ******* NEED TO OPEN THE MESSAGE PORTAL
+		//logoutButton.setOnAction(e -> XXXXXXX); // ***** NEED TO GO BACK TO LOGIN SCREEN
+		//messagePortalButton.setOnAction(e -> XXXXXXXXXX); // ******* NEED TO OPEN THE MESSAGE PORTAL
 	}
 	
 	// function for writing
@@ -206,18 +220,21 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 				errorLabel.setEllipsisString("At least one field is empty!");
 				throw new Exception();
 			}
-			
-			
-			/*
-			 * ADD METHOD TO SAVE THE PATIENTS HEALTH INFORMATION IN THEIR FILE
-			 * ON TO DO LIST
-			 */
-			
-			patientWeight = weightField.getText();
-			patientHeight = heightField.getText();
-			patientTemperature = temperatureField.getText();
-			patientBloodPressure = bloodPressureField.getText();
-			patientConcerns = patientConcernField.getText();
+			// Generate the file name
+            String fileName = patientLastName + patientFirstName + "Vitals.txt";
+
+            // Create a string with all the CT scan results
+            String vitals = weightField.getText() + "\n" +
+                                   heightField.getText() + "\n" +
+                                   temperatureField.getText() + "\n" +
+                                   bloodPressureField.getText() + "\n" +
+                                   patientConcernField.getText() + "\n";
+
+            // Write the CT scan results to the file
+            FileWriter fileWriter = new FileWriter(fileName);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(vitals);
+            bufferedWriter.close();
 			
 			errorLabel.setText("Information Updated!");
 		}catch(Exception e) {
