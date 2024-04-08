@@ -12,10 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import java.io.File;
 
 
 public class MessageViewBuilder extends HBox{
@@ -26,7 +23,7 @@ public class MessageViewBuilder extends HBox{
 	protected String userStatus, userName;
 	
 	//Buttons:
-	protected Button backButton, logoutButton, sendButton;
+	protected Button backButton, logoutButton, sendButton, openButton;
 	
 	//Labels:
 	protected Label messagePortalLabel, helloLabel;
@@ -68,6 +65,8 @@ public class MessageViewBuilder extends HBox{
 		sendButton = new Button("Send");
 		sendButton.setEllipsisString("Send");
 		backButton.setOnAction(e -> backButtonImplementation());
+		openButton = new Button("Open");
+		openButton.setEllipsisString("Open");
 		
 		//TextArea:
 		typeMessage = new TextArea();
@@ -121,6 +120,7 @@ public class MessageViewBuilder extends HBox{
 		topHalfPageContainer.add(messagePortalLabel, 3, 0);
 		topHalfPageContainer.add(logoutButton, 5, 0);
 		topHalfPageContainer.add(messageDropDown, 2, 1);
+		topHalfPageContainer.add(openButton, 3, 1);
 		topHalfPageContainer.add(imageView, 4, 1);
 		
 		//MessageContainer
@@ -131,10 +131,13 @@ public class MessageViewBuilder extends HBox{
 		mainPane.setTop(topHalfPageContainer);
 		mainPane.setCenter(scroll);
 		
+		//Add this part to nurse and doctor message view like it is in patient message view constructor
+		/*
 		//Set stage
 		primaryStage.setScene(new Scene(mainPane,2000,2000));
 		primaryStage.setFullScreen(true);
 		primaryStage.show();
+		*/
 	}
 	
 	public void buildMessagePage() {
@@ -154,13 +157,6 @@ public class MessageViewBuilder extends HBox{
 		}catch(Exception e) {
 			System.out.print(e);
 		}
-		
-
-
-		
-
-		
-		
 	}
 	
 	public void backButtonImplementation() {
