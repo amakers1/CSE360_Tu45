@@ -1,5 +1,0 @@
-Appointment summaries are written here
-Date
-Doctor
-Nurse
-Summary

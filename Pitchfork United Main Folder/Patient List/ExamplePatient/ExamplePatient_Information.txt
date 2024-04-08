@@ -1,5 +1,0 @@
-Example
-Patient
-1012024
-gmail
-1234567890
