@@ -58,11 +58,13 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 	//Ints:
 	protected int dateOfBirth, phoneNumber;
 	
+	//constructor super calls parent class
 	public PatientBaseViewPage(String userStatus, Stage primaryStage, String patientUserName) {
 		super(userStatus, primaryStage, patientUserName);
-		this.patientUserName = patientUserName;
+		this.patientUserName = patientUserName; //sets class variable to patient userName
 	}
 	
+	//this method overrides the buildPage in the parent class to build the rest of the patient view page
 	@Override
 	public void buildPage() {
 		//Intitalizing Variables:
@@ -109,7 +111,7 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 		
 		//TextAreas:
 		node1 = new TextArea();
-		node1.setMinWidth(607);
+		node1.setMinWidth(607);//very specific size to fit the screen please dont change for all the nodes
 		node1.setMinHeight(151);
 		node2 = new TextArea();
 		node2.setMinWidth(603);
@@ -141,17 +143,22 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 		appointmentSummaryPane = new VBox(50);
 		appointmentSummaryPane.getChildren().addAll(node1, node2, node3);
 		centerPane = new VBox(50);
-		
-		leftPane = new HBox();
-		leftPane.getChildren().add(new Label(""));
 		rightPane = new VBox();
 		rightPane.getChildren().add(imageView);
+		
+		//HBoxs:
+		leftPane = new HBox();
+		leftPane.getChildren().add(new Label(""));
+		
 		centerPane.getChildren().addAll(contactGrid);
 		
+		//padding is very specific to fit in the page please dont touch
 		topPane.setPadding(new Insets(30,100,57,100));
 		contactInfoPane.setPadding(new Insets(30,30,101,30));
 		leftPane.setPadding(new Insets(100,100,100,10));
 		rightPane.setPadding(new Insets(100,57,100,100));
+		
+		//main Pane builds the page
 		contactInfoPane.getChildren().add(centerPane);
 		mainPane.setTop(topPane);
 		mainPane.setCenter(contactInfoPane);
@@ -159,16 +166,17 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 		mainPane.setRight(rightPane);
 		mainPane.setBottom(new HBox(errorLabel));
 		
-		updateButton.setOnAction(e -> getData());
-		appointmentSummaryButton.setOnAction(e -> contactInfoPane.getChildren().setAll(appointmentSummaryPane));
-		contactInfoButton.setOnAction(e -> contactInfoPane.getChildren().setAll(contactGrid));
+		updateButton.setOnAction(e -> getData()); //update button clicked and getData method is called
+		appointmentSummaryButton.setOnAction(e -> getAppointmentSummary()); //appointment summary button is clicked and pane is changed to appointmentSummary pane
+		contactInfoButton.setOnAction(e -> contactInfoPane.getChildren().setAll(contactGrid));//contactinfo button is clicked and pane is changed to contactInfo pane
 		
 		
 	}
 	
+	//this method gets the data from the inputs and goes through a process to save the data
 	private void getData() {
 		try {
-			if(firstNameTextField.getText().isBlank() || lastNameTextField.getText().isBlank() || emailTextField.getText().isBlank() || 
+			if(firstNameTextField.getText().isBlank() || lastNameTextField.getText().isBlank() || emailTextField.getText().isBlank() || //checks if any field is empty
 					dateOfBirthTextField.getText().isBlank() || phoneNumberTextField.getText().isBlank()) {
 				errorLabel.setText("At least one field is empty!");
 				errorLabel.setEllipsisString("At least one field is empty!");
@@ -176,23 +184,22 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 			}
 			ContactInformationValidation contactInfoValidation = new ContactInformationValidation();
 			
-			
+			//gets the text from inputs
 			firstName = firstNameTextField.getText();
 			lastName = lastNameTextField.getText();
 			email = emailTextField.getText();
 			dateOfBirth = Integer.parseInt(dateOfBirthTextField.getText());
 			phoneNumber = Integer.parseInt(phoneNumberTextField.getText());
 			
-			if(contactInfoValidation.validateContactInfo(patientUserName, firstName, lastName, email, dateOfBirth, phoneNumber) == false) {
+			//access ContactInformationValidation class to validate the info
+			if(contactInfoValidation.validateContactInfo(patientUserName, firstName, lastName, email, dateOfBirth, phoneNumber) == false) { //if true then data is saved 
 				errorLabel.setText("A field has too many characters!");
 				errorLabel.setEllipsisString("A field has too many characters!");
 				throw new Exception();
 			}
-			
-			System.out.print(firstName + lastName + email + dateOfBirth + phoneNumber);
-			
+						
 			errorLabel.setText("Information Updated!");
-		}catch(NumberFormatException e) {
+		}catch(NumberFormatException e) { //dateOfBirth and pohone number need to be numbers exception
 			System.out.print(e);
 			errorLabel.setText("Date of Birth and Phone Number need to be numbers!");
 			errorLabel.setEllipsisString("Date of Birth and Phone Number need to be numbers!");
@@ -203,5 +210,11 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 			System.out.print(e);
 			
 		}
+	}
+	
+	private void getAppointmentSummary() {
+		
+		contactInfoPane.getChildren().setAll(appointmentSummaryPane);
+		
 	}
  }
