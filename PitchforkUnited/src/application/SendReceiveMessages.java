@@ -17,17 +17,17 @@ public class SendReceiveMessages {
 		String pathToSender;
 		String pathToReceiver;
 		
-		if(senderUserStatus == "Patient") {
+		if(senderUserStatus.equals("Patient")) {
 			pathToSender = "Pitchfork United Main Folder/Patient List/" + senderUserName + "/Conversations";
-		}else if(senderUserStatus == "Doctor") {
+		}else if(senderUserStatus.equals("Doctor")) {
 			pathToSender = "Pitchfork United Main Folder/Doctor List/" + senderUserName + "/Conversations";
 		}else {
 			pathToSender = "Pitchfork United Main Folder/Nurse List/" + senderUserName + "/Conversations";
 		}
 		
-		if(receiverUserStatus == "Patient") {
+		if(receiverUserStatus.equals("Patient")) {
 			pathToReceiver = "Pitchfork United Main Folder/Patient List/" + receiverUserName + "/Conversations";
-		}else if(receiverUserStatus == "Doctor") {
+		}else if(receiverUserStatus.equals("Doctor")) {
 			pathToReceiver = "Pitchfork United Main Folder/Doctor List/" + receiverUserName + "/Conversations";
 		}else {
 			pathToReceiver = "Pitchfork United Main Folder/Nurse List/" + receiverUserName + "/Conversations";
@@ -36,7 +36,7 @@ public class SendReceiveMessages {
 		senderFileName = senderUserName + "_Conversation_With_" + receiverUserName + ".txt";
 		receiverFileName = receiverUserName + "_Conversation_With_" + senderUserName + ".txt";
 		
-		String fileContent = senderUserName + "/ " + message + "\n";
+		String fileContent = senderUserName + "/: " + message;
 		
 		String senderPath = pathToSender + File.separator + senderFileName;
 		String receiverPath = pathToReceiver + File.separator + receiverFileName;

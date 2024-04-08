@@ -23,7 +23,7 @@ public class MessageViewBuilder extends HBox{
 	protected String userStatus, userName;
 	
 	//Buttons:
-	protected Button backButton, logoutButton, sendButton, openButton;
+	protected Button backButton, logoutButton, sendButton, refreshButton;
 	
 	//Labels:
 	protected Label messagePortalLabel, helloLabel;
@@ -65,8 +65,8 @@ public class MessageViewBuilder extends HBox{
 		sendButton = new Button("Send");
 		sendButton.setEllipsisString("Send");
 		backButton.setOnAction(e -> backButtonImplementation());
-		openButton = new Button("Open");
-		openButton.setEllipsisString("Open");
+		refreshButton = new Button("Refresh");
+		refreshButton.setEllipsisString("Refresh");
 		
 		//TextArea:
 		typeMessage = new TextArea();
@@ -120,7 +120,7 @@ public class MessageViewBuilder extends HBox{
 		topHalfPageContainer.add(messagePortalLabel, 3, 0);
 		topHalfPageContainer.add(logoutButton, 5, 0);
 		topHalfPageContainer.add(messageDropDown, 2, 1);
-		topHalfPageContainer.add(openButton, 3, 1);
+		topHalfPageContainer.add(refreshButton, 3, 1);
 		topHalfPageContainer.add(imageView, 4, 1);
 		
 		//MessageContainer
@@ -138,6 +138,9 @@ public class MessageViewBuilder extends HBox{
 		primaryStage.setFullScreen(true);
 		primaryStage.show();
 		*/
+		
+		sendButton.setOnAction(e ->sendButtonImplementation());
+
 	}
 	
 	public void buildMessagePage() {
@@ -165,6 +168,30 @@ public class MessageViewBuilder extends HBox{
 		primaryStage.setScene(new Scene(basePageViewBuilder, 2000, 2000));
 		primaryStage.setFullScreen(true);
 		primaryStage.show();
+		
+	}
+	
+	public void sendButtonImplementation() {
+		String message = "";
+		String receiverUserStatus = "";
+		String receiverUserName = "";
+		
+		message = typeMessage.getText();
+		String selectedItem = messageDropDown.getValue();
+        if (selectedItem != null) {
+            int index = selectedItem.indexOf(' ');
+            if (index != -1) { // If whitespace found
+                receiverUserStatus = selectedItem.substring(0, index);
+                receiverUserName = selectedItem.substring(index + 1);
+            } else { // If no whitespace found
+                receiverUserStatus = selectedItem;
+            }
+        }
+		System.out.print(receiverUserStatus);
+		System.out.print(receiverUserName);
+
+		SendReceiveMessages send = new SendReceiveMessages();
+		send.sendMessage(message, userStatus, receiverUserStatus, userName, receiverUserName);
 		
 	}
 

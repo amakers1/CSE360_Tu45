@@ -1,82 +1,15 @@
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-ExamplePatient/ Test Message2
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
+ExamplePatient/: Test Message
+DoctorExample/: Test Message2
+ExamplePatient/: Test Message
+DoctorExample/: Test Message2
+ExamplePatient/: Test Message
+DoctorExample/: Test Message2
+ExamplePatient/: Test Message
+DoctorExample/: Test Message2
+ExamplePatient/: this is a test
+ExamplePatient/: Test Message
+DoctorExample/: Test Message2
+ExamplePatient/: this is test umber 2!
+ExamplePatient/: Test Message
+DoctorExample/: Test Message2
+ExamplePatient/: rah rah rah

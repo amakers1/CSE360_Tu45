@@ -9,14 +9,11 @@ import javafx.scene.layout.BorderPane;
 public class Main extends Application {
 	
 	public void start(Stage primaryStage) {
-		String userStatus = "Patient";
+		String userStatus = "Doctor";
 			BorderPane root = new BorderPane();
 			BasePageViewBuilder basePageViewBuilder = new BasePageViewBuilder(userStatus, primaryStage, "ExamplePatient");
 			root.getChildren().add(basePageViewBuilder);
 			Scene scene = new Scene(root,2000,2000);
-			SendReceiveMessages sendMessage = new SendReceiveMessages();
-			sendMessage.sendMessage("Test Message", "Patient", "Doctor", "ExamplePatient", "DoctorExample");
-			sendMessage.sendMessage("Test Message2", "Patient", "Doctor", "ExamplePatient", "DoctorExample");
 			primaryStage.setTitle("Pitchforks United");
 			primaryStage.setScene(scene);
 			primaryStage.setFullScreen(true);

@@ -1,82 +1,13 @@
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-ExamplePatient/ Test Message2
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
-ExamplePatient/ Test Message
-
-ExamplePatient/ Test Message2
-
+ExamplePatient/: Test Message
+DoctorExample/: Test Message2
+ExamplePatient/: Test Message
+DoctorExample/: Test Message2
+ExamplePatient/: Test Message
+DoctorExample/: Test Message2
+ExamplePatient/: Test Message
+DoctorExample/: Test Message2
+ExamplePatient/: Test Message
+DoctorExample/: Test Message2
+ExamplePatient/: Test Message
+DoctorExample/: Test Message2
+ExamplePatient/: rah rah rah

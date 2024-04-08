@@ -51,12 +51,12 @@ public class BasePageViewBuilder extends HBox{
 	
 	protected void buildPage() {
 		try {
-			if(userStatus == "Patient") {
+			if(userStatus.equals("Patient")) {
 				PatientBaseViewPage patientViewPage = new PatientBaseViewPage(userStatus, primaryStage, userName);
 				mainPane.getChildren().add(patientViewPage);
-			}else if(userStatus == "Nurse") {
+			}else if(userStatus.equals("Nurse")) {
 				//setNurseScreen;
-			}else if(userStatus == "Doctor"){
+			}else if(userStatus.equals("Doctor")){
 				//setDoctorScreen;
 			}else{
 				return;

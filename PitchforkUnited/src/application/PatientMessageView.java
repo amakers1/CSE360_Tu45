@@ -19,7 +19,7 @@ public class PatientMessageView extends MessageViewBuilder{
 		primaryStage.setFullScreen(true);
 		primaryStage.show();
 		
-		openButton.setOnAction(e -> displayMessage());
+		refreshButton.setOnAction(e -> displayMessage());
 	}
 	
 	@Override
@@ -93,7 +93,7 @@ public class PatientMessageView extends MessageViewBuilder{
 			
 			String line = individualMessageArray[i];
 			System.out.print(i + "\n");
-			String[] parts = line.split("/");
+			String[] parts = line.split("/:");
 			
 			String sender;
 			String messages;
@@ -102,12 +102,12 @@ public class PatientMessageView extends MessageViewBuilder{
 		        sender = parts[0].trim();
 		        messages = parts[1].trim();
 		    }else {
-		    	sender = parts[0].trim();
-		        messages = parts[1].trim();
+		    	sender = parts[0];
+		        messages = parts[1];
 		    }
 			System.out.print("this is the issue" + i + "\n");
 
-			TextArea singleMessage = new TextArea(sender + " " + messages);
+			TextArea singleMessage = new TextArea(sender + ": " + messages);
 			singleMessage.setMaxSize(400, 50);
 			
             int columnIndex = (sender.equals(receiverName)) ? 0 : 1;
