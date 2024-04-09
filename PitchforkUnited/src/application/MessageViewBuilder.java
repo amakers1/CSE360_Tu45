@@ -151,9 +151,11 @@ public class MessageViewBuilder extends HBox{
 				PatientMessageView patientView = new PatientMessageView(userStatus, primaryStage, userName);
 				patientView.buildMessagePage();
 			}else if(userStatus == "Nurse") {
-				//setNurseScreen;
+				NurseDoctorMessageView nurseView = new NurseDoctorMessageView(userStatus, primaryStage, userName);//setNurseScreen;
+				nurseView.buildMessagePage();
 			}else if(userStatus == "Doctor"){
-				//setDoctorScreen;
+				NurseDoctorMessageView doctorView = new NurseDoctorMessageView(userStatus, primaryStage, userName);//setDoctorScreen;
+				doctorView.buildMessagePage();
 			}else{
 				return;
 			}

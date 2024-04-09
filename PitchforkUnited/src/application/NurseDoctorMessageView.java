@@ -1,15 +1,15 @@
 package application;
 
 import java.io.File;
+
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-public class PatientMessageView extends MessageViewBuilder{
-	
+public class NurseDoctorMessageView extends MessageViewBuilder{
+
 	protected String messages;
-	
-	public PatientMessageView(String userStatus , Stage primaryStage,String userName) {
+	public NurseDoctorMessageView(String userStatus, Stage primaryStage, String userName) {
 		super(userStatus, primaryStage, userName);
 		//Set stage to the correct screen so page is displayed
 		primaryStage.setScene(new Scene(mainPane,2000,2000));
@@ -22,31 +22,17 @@ public class PatientMessageView extends MessageViewBuilder{
 	@Override
 	public void buildMessagePage() {
 		//sets the doctor title before the doctor name so the patient knows who they are talking to and used later for parsing
-		File doctorDirectory = new File("Pitchfork United Main Folder/Doctor List");
-        if (doctorDirectory.exists() && doctorDirectory.isDirectory()) {
-            File[] files = doctorDirectory.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (file.isDirectory()) {
-                        messageDropDown.getItems().add("Doctor " + file.getName());
-                    }
-                }
-            }
-        }
-        //sets the nurse title before the nurse name so the patient knows who they are talking to and used later for parsing
-        File nurseDirectory = new File("Pitchfork United Main Folder/Nurse List");
-        if (nurseDirectory.exists() && doctorDirectory.isDirectory()) {
-            File[] files = nurseDirectory.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (file.isDirectory()) {
-                        messageDropDown.getItems().add("Nurse " + file.getName());
-                    }
-                }
-            }
-        }
-        
-
+				File patientDirectory = new File("Pitchfork United Main Folder/Patient List");
+		        if (patientDirectory.exists() && patientDirectory.isDirectory()) {
+		            File[] files = patientDirectory.listFiles();
+		            if (files != null) {
+		                for (File file : files) {
+		                    if (file.isDirectory()) {
+		                        messageDropDown.getItems().add("Patient " + file.getName());
+		                    }
+		                }
+		            }
+		        }
 	}
 	
 	public void displayMessage() {
@@ -71,15 +57,9 @@ public class PatientMessageView extends MessageViewBuilder{
                 }
             }
             
-            if(jobTitle.equals("Doctor")) {
-            	messages = receiveMessage.getMessage(userStatus, jobTitle, userName, receiverName);//sending message to doctor
-            	parseMessages(messages, receiverName);
-            }else {
-            	messages = receiveMessage.getMessage(userStatus, jobTitle, userName, receiverName);//sending message to nurse
-            	parseMessages(messages, receiverName);
-            }
-			
-		
+            messages = receiveMessage.getMessage(userStatus, jobTitle, userName, receiverName);//sending message to patient
+            parseMessages(messages, receiverName);
+            
 	}
 	
 	public void parseMessages(String message, String receiverName) {
@@ -116,5 +96,5 @@ public class PatientMessageView extends MessageViewBuilder{
 		}
 		
 	}
-	
+
 }

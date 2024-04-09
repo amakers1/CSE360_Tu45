@@ -57,15 +57,16 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 	protected ImageView imageView;
 	
 	//Strings:
-	protected String firstName, lastName, email, patientUserName;
+	protected String firstName, lastName, email;
 	
 	//Ints:
 	protected int dateOfBirth, phoneNumber;
 	
 	//constructor super calls parent class
 	public PatientBaseViewPage(String userStatus, Stage primaryStage, String patientUserName) {
+		
 		super(userStatus, primaryStage, patientUserName);
-		this.patientUserName = patientUserName; //sets class variable to patient userName
+		//this.userName = patientUserName;//sets class variable to patient userName
 	}
 	
 	//this method overrides the buildPage in the parent class to build the rest of the patient view page
@@ -94,7 +95,8 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 		phoneNumberLabel = new Label("Phone Number");
 		phoneNumberLabel.setEllipsisString("Phone Number");
 		phoneNumberLabel.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
-		welcomeLabel = new Label("Welcome, PatientName");
+		welcomeLabel = new Label("Welcome, " + userName);
+		System.out.print(userName);
 		welcomeLabel.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
 		errorLabel = new Label("");
 		errorLabel.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 15; -fx-text-fill: #FFC627");
@@ -196,7 +198,7 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 			phoneNumber = Integer.parseInt(phoneNumberTextField.getText());
 			
 			//access ContactInformationValidation class to validate the info
-			if(contactInfoValidation.validateContactInfo(patientUserName, firstName, lastName, email, dateOfBirth, phoneNumber) == false) { //if true then data is saved 
+			if(contactInfoValidation.validateContactInfo(userName, firstName, lastName, email, dateOfBirth, phoneNumber) == false) { //if true then data is saved 
 				errorLabel.setText("A field has too many characters!");
 				errorLabel.setEllipsisString("A field has too many characters!");
 				throw new Exception();
