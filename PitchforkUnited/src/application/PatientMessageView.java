@@ -120,5 +120,7 @@ public class PatientMessageView extends MessageViewBuilder{
 		}
 		
 	}
+	
+	
 
 }

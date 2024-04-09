@@ -1,6 +1,10 @@
 package application;
 
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -214,7 +218,44 @@ public class PatientBaseViewPage extends BasePageViewBuilder{
 	
 	private void getAppointmentSummary() {
 		
-		contactInfoPane.getChildren().setAll(appointmentSummaryPane);
+		contactInfoPane.getChildren().setAll(appointmentSummaryPane); //sets the pane to appointmentSummary
+		String appointmentSummary = ""; //for node1
+		String appointmentSummary2 = "";//for node2
+		String appointmentSummary3 = "";//for node3
+
+		String pathToPatientSummary = "Pitchfork United Main Folder/Patient List/" + userName; //path to the file
+		String fileName = userName + "_Appointment_Summary.txt";//file name
+		
+		String filePath = pathToPatientSummary + File.separator + fileName;
+		
+		try(BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+			String line;
+			while((line = reader.readLine()) != null) { //first appointment summary
+				if(line.equals("")) {
+					break;
+				}
+				appointmentSummary += line + "\n";
+			}
+			while((line = reader.readLine()) != null) { //second appointment summary
+				if(line.equals("")) {
+					break;
+				}
+				appointmentSummary2 += line + "\n";
+			}
+			while((line = reader.readLine()) != null) {//third appointment summary
+				if(line.equals("")) {
+					break;
+				}
+				appointmentSummary3 += line + "\n";
+			}
+		}catch(Exception e) {
+			System.out.print(e);
+		}
+		
+		node1.setText(appointmentSummary);//sets the first node
+		node2.setText(appointmentSummary2);//sets the second node
+		node3.setText(appointmentSummary3);//sets the third node
+		
 		
 	}
  }
