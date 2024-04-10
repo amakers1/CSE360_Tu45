@@ -1,8 +1,11 @@
 package application;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -199,10 +202,11 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		// GRIDPANE:
 		// Set up patient list
 		patientList = new GridPane();
-		patientList.addColumn(0, new Label("Last Name"), new Label("Name"), new Label("Name"), new Label("Name"), new Label("Name"));
-		patientList.addColumn(1, new Label("First Name"), new Label("Name"), new Label("Name"), new Label("Name"), new Label("Name"));
-		patientList.addColumn(2, new Label("Date of Birth"), new Label("DOB"), new Label("DOB"), new Label("DOB"), new Label("DOB"));
+		patientList.addColumn(0, new Label("User Name"));
+		patientList.addColumn(1, new Label("Name"));
+		patientList.addColumn(2, new Label("Date of Birth"));
 		patientList.addColumn(3, new Label(""), new Button("Select patient"), new Button("Select patient"), new Button("Select patient"), new Button("Select patient"));
+		populatePatientList();
 		
 		patientList.setStyle("-fx-background-color: white; -fx-grid-lines-visible: false; -fx-padding: 50px;");
 		patientList.setAlignment(Pos.CENTER);
@@ -284,10 +288,13 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 	
 	private void populatePatientList() {
 		
-        String parentFolderPath = "../../Pitchfork United Main Folder/Patient List"; // Specify the path to the parent folder
+        String parentFolderPath = "PitchforkUnited/Pitchfork United Main Folder/Patient List"; // Specify the path to the parent folder
 
         // Create a File object for the parent folder
         File parentFolder = new File(parentFolderPath);
+        
+        String currentDirectory = System.getProperty("user.dir");
+        System.out.println("Current directory: " + currentDirectory);
 
         // Check if the specified path exists and is a directory
         if (parentFolder.exists() && parentFolder.isDirectory()) {
@@ -297,6 +304,46 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
             // Iterate through each subdirectory and print its name
             for (File subdirectory : subdirectories) {
                 patientList.add(new Label(subdirectory.getName()), 0, i);
+                System.out.println(i + ": " + subdirectory.getName());
+                
+                
+             // Read the text file (replace with your actual file path)
+            String filePath = "PitchforkUnited/Pitchfork United Main Folder/Patient List/" + subdirectory.getName() + "/" +
+            					subdirectory.getName() + "_Information.txt";
+            
+            System.out.println(filePath);
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                int lineNumber = 1;
+                while ((line = reader.readLine()) != null) {
+                    // Process each line based on its position
+                    switch (lineNumber) {
+                        case 1:
+                            patientList.add(new Label(line), 0, i);
+                            break;
+                        case 2:
+                        	//System.out.println("Name: " + line);
+                        	patientList.add(new Label(line), 1, i);
+                            break;
+                        case 3:
+                        	//System.out.println("Date of Birth: " + line);
+                        	patientList.add(new Label(line), 2, i);
+                            break;
+                        case 4:
+                        	//System.out.println("Email: " + line);
+                            break;
+                        case 5:
+                        	//System.out.println("Phone Number: " + line);
+                            break;
+                        default:
+                            // Handle additional lines if needed
+                            break;
+                    }
+                    lineNumber++;
+                }
+                } catch (IOException e) {
+                    System.err.println("Error reading the file: " + e.getMessage());
+                }
                 i++;
             }
         } else {
