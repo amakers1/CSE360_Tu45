@@ -6,6 +6,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -46,7 +53,8 @@ public class DoctorBaseViewPage extends BasePageViewBuilder {
 	protected TextField txtWeight, txtHeight, txtTemp, txtBloodPressure;
 	
 	//Buttons:
-	protected Button butLogout, butSave, butMessagePortal;
+	protected Button butLogout, butSave;
+	// Button messagePortalButton
 	
 	//Scenes:
 	protected Scene mainScene;
@@ -63,13 +71,12 @@ public class DoctorBaseViewPage extends BasePageViewBuilder {
 	protected ImageView imageView;
 	
 	//Strings:
-	protected String doctorUserName, patientFirstName, patientLastName, 
-				patientWeight, patientHeight, patientTemperature, patientBloodPressure,
-				patientPastConcerns, patientMedications, patientImmunizations,
-				patientAllergies, patientConcerns;
+	protected String doctorUserName;
 	
 	//Ints:
 	protected int dateOfBirth, phoneNumber;
+	
+	String currentPatientUserName = "";
 	
 	
 	public DoctorBaseViewPage(String userStatus, Stage primaryStage, String doctorUserName) {
@@ -90,6 +97,7 @@ public class DoctorBaseViewPage extends BasePageViewBuilder {
 		//Labels:
 		
 		// TOP SECTION
+		doctorUserName = "Day"; //test for name
 		lblWelcome = new Label("Welcome Dr. " + doctorUserName);
 		lblWelcome.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 65; -fx-text-fill: #FFC627");
 		
@@ -100,47 +108,61 @@ public class DoctorBaseViewPage extends BasePageViewBuilder {
 		// MIDDLE SECTION
 		lblVitals = new Label("Vitals");
 		lblVitals.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
+		lblVitals.setEllipsisString("Vitals");
 		
-		lblWeight = new Label("Weight: ");
+		lblWeight = new Label("  Weight: ");
 		lblWeight.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
+		lblWeight.setEllipsisString("  Weight: ");
 		
-		lblHeight = new Label("Height: ");
+		lblHeight = new Label("  Height: ");
 		lblHeight.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
+		lblHeight.setEllipsisString("  Height: ");
 		
-		lblTemp = new Label("Temperature: ");
+		lblTemp = new Label("  Temperature: ");
 		lblTemp.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
+		lblTemp.setEllipsisString("  Temperature: ");
 		
-		lblBloodPressure = new Label("Blood Pressure: ");
+		lblBloodPressure = new Label("  Blood Pressure: ");
 		lblBloodPressure.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
+		lblBloodPressure.setEllipsisString("  Blood Pressure: ");
 		
 		lblConcernVisit = new Label("Concern for Visit: ");
 		lblConcernVisit.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
+		lblConcernVisit.setEllipsisString("Concern for Visit: ");
 		
 		lblPhysicalExam = new Label("Physical Exam Findings: ");
 		lblPhysicalExam.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
+		lblPhysicalExam.setEllipsisString("Physical Exam Findings: ");
 		
 		lblPrescribe = new Label("Prescribe the following: ");
 		lblPrescribe.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
+		lblPrescribe.setEllipsisString("Prescribe the following: ");
 		
 		
 		// RIGHT SECTION
 		lblPatientHistory = new Label("Patient History: ");
 		lblPatientHistory.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
+		lblPatientHistory.setEllipsisString("Patient History: ");
 		
 		lblPatientInfo = new Label("Patient Information: ");
 		lblPatientInfo.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
+		lblPatientInfo.setEllipsisString("Patient Information: ");
 		
-		lblPrevConcern = new Label("Past Concerns:");
+		lblPrevConcern = new Label("Past Concerns: ");
 		lblPrevConcern.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
+		lblPrevConcern.setEllipsisString("Past Concerns: ");
 		
-		lblPrevMed = new Label("Medications:");
+		lblPrevMed = new Label("Medications: ");
 		lblPrevMed.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
+		lblPrevMed.setEllipsisString("Medications: ");
 		
-		lblPrevImmunizations = new Label("Immunizations:");
+		lblPrevImmunizations = new Label("Immunizations: ");
 		lblPrevImmunizations.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
+		lblPrevImmunizations.setEllipsisString("Immunizations: ");
 		
-		lblAllergies = new Label("Allergies:");
+		lblAllergies = new Label("Allergies: ");
 		lblAllergies.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
+		lblAllergies.setEllipsisString("Allergies: ");
 		
 		// MISC
 		errorLabel = new Label("");
@@ -150,6 +172,8 @@ public class DoctorBaseViewPage extends BasePageViewBuilder {
 		//Non-editable TextFields / TextAreas:
 		txtWeight = new TextField();
 		txtWeight.setEditable(false);
+		//txtWeight.setPrefSize(50, 100);
+		txtWeight.setPrefColumnCount(2);
 		
 		txtHeight = new TextField();
 		txtHeight.setEditable(false);
@@ -162,6 +186,7 @@ public class DoctorBaseViewPage extends BasePageViewBuilder {
 		
 		txtConcern = new TextArea();
 		txtConcern.setEditable(false);
+		txtConcern.setPrefRowCount(4);
 		
 		txtPatientInfo = new TextArea();
 		txtPatientInfo.setEditable(false);
@@ -181,79 +206,92 @@ public class DoctorBaseViewPage extends BasePageViewBuilder {
 		
 		// editable fields
 		txtPhysicalExam = new TextArea();
+		//txtPhysicalExam.setPrefColumnCount(1);
+		txtPhysicalExam.setPrefRowCount(4);
 		txtPrescribe = new TextArea();
+		txtPrescribe.setPrefRowCount(4);
 		
 		
 		//Buttons:
 		butSave = new Button("Save");
-		butSave.setPrefSize(200, 250);
-		butSave.setStyle("-fx-background-color: #FFC627");
+		butSave.setPrefSize(100,50);
+		butSave.setStyle("-fx-background-color: #FFC627; -fx-font-family: Times New Roman; -fx-font-size: 15; -fx-text-fill: #000000");
 		
-		butLogout =  new Button("Logout");
-		butLogout.setPrefSize(100, 50);
-		butLogout.setStyle("-fx-background-color: #FFC627");
+		logoutButton.setPrefSize(100,50);
+		logoutButton.setStyle("-fx-background-color: #FFC627; -fx-font-family: Times New Roman; -fx-font-size: 15; -fx-text-fill: #000000");
+		
+		messagePortalButton.setPrefSize(200,50);
+		messagePortalButton.setStyle("-fx-background-color: #FFC627; -fx-font-family: Times New Roman; -fx-font-size: 15; -fx-text-fill: #000000");
 		
 		
 		// minor HBoxes, VBoxes, GridPanes:
 		
 		gridVitals = new GridPane();
+		gridVitals.setVgap(5);
+		gridVitals.setHgap(5);
+		gridVitals.getColumnConstraints().add(new ColumnConstraints(200)); //column 1 size
+		gridVitals.getColumnConstraints().add(new ColumnConstraints(148)); //column 2 size
 		gridVitals.addRow(0, lblVitals);
 		gridVitals.addRow(1, lblWeight, txtWeight);
 		gridVitals.addRow(2, lblHeight, txtHeight);
 		gridVitals.addRow(3, lblTemp, txtTemp);
 		gridVitals.addRow(4, lblBloodPressure, txtBloodPressure);
 		
-		vboxConcerns = new VBox();
+		vboxConcerns = new VBox(10);
 		vboxConcerns.getChildren().addAll(lblConcernVisit, txtConcern);
 		
-		hboxVitalsConcerns = new HBox();
+		hboxVitalsConcerns = new HBox(20);
 		hboxVitalsConcerns.getChildren().addAll(gridVitals, vboxConcerns);
 		
-		hboxPrescribeInfo = new HBox();
+		hboxPrescribeInfo = new HBox(20);
 		hboxPrescribeInfo.getChildren().addAll(lblPrescribe, txtPrescribe);
 		
 		
-		vboxMiddleSide = new VBox();
-		vboxMiddleSide.getChildren().addAll(hboxVitalsConcerns, lblPhysicalExam, txtPhysicalExam, hboxPrescribeInfo, butSave);
+		vboxMiddleSide = new VBox(20);
+		vboxMiddleSide.getChildren().addAll(hboxVitalsConcerns, lblPhysicalExam, txtPhysicalExam, lblPrescribe, txtPrescribe, butSave);
 		
-		vboxRightSide = new VBox();
-		vboxRightSide.getChildren().addAll(lblPatientHistory, lblPatientInfo, txtPatientInfo, 
+		vboxRightSide = new VBox(20);
+		vboxRightSide.setMinWidth(400);
+		vboxRightSide.getChildren().addAll(lblPatientHistory, lblPatientInfo, txtPatientInfo,
 				lblPrevConcern, txtPrevConcern, lblPrevMed, txtPrevMed, lblPrevImmunizations, txtPrevImmunizations,
 				lblAllergies, txtAllergies);
+		//lblPatientInfo, txtPatientInfo,
 		
-		
+		Button butP1 = new Button("Select");
+		Button butP2 = new Button("Select");
+		Button butP3 = new Button("Select");
+		Button butP4 = new Button("Select");
 		
 		// GridPanes:
 		// Set up patient list
 		gridPatientList = new GridPane();
-		gridPatientList.addColumn(0, new Label("Last Name"), new Label("Name"), new Label("Name"), new Label("Name"), new Label("Name"));
-		gridPatientList.addColumn(1, new Label("First Name"), new Label("Name"), new Label("Name"), new Label("Name"), new Label("Name"));
-		gridPatientList.addColumn(2, new Label("Date of Birth"), new Label("DOB"), new Label("DOB"), new Label("DOB"), new Label("DOB"));
-		gridPatientList.addColumn(3, new Label(""), new Button("Select patient"), new Button("Select patient"), new Button("Select patient"), new Button("Select patient"));
+		gridPatientList.addColumn(0, new Label("File Name"));
+		gridPatientList.addColumn(1, new Label("Patient Last Name"));
+		gridPatientList.addColumn(2, new Label("Date of Birth"));
+		gridPatientList.addColumn(3, new Label(""), butP1, butP2, butP3, butP4);
 		
-		gridPatientList.setStyle("-fx-background-color: white; -fx-grid-lines-visible: false; -fx-padding: 50px;");
-		gridPatientList.setAlignment(Pos.CENTER);
+		gridPatientList.setStyle("-fx-background-color: white; -fx-grid-lines-visible: false; -fx-padding: 10px;");
+		//gridPatientList.setAlignment(Pos.CENTER);
 
 		gridPatientList.setHgap(10); // Horizontal spacing
 		gridPatientList.setVgap(10); // Vertical spacing
+		populatePatientList();
 		
 		vboxLeftSide = new VBox();
-		vboxLeftSide.getChildren().addAll(lblPatient, gridPatientList, butMessagePortal);
+		vboxLeftSide.getChildren().addAll(lblPatient, gridPatientList, messagePortalButton, imageView);
 		
 		// Set up patient info side
 		gridAllPatientInfo = new GridPane();
 		gridAllPatientInfo.addRow(0, vboxLeftSide, vboxMiddleSide, vboxRightSide);
-		gridPatientList.setVgap(10);
+		gridAllPatientInfo.setVgap(10);
+		gridAllPatientInfo.setHgap(40);
+		gridAllPatientInfo.setPadding(new Insets(15,30,100,50));
 		
 		
-		hboxTop = new HBox();
-		hboxTop.getChildren().addAll(lblWelcome, butLogout);
+		hboxTop = new HBox(150);
+		hboxTop.getChildren().addAll(logoutButton, lblWelcome);
+		hboxTop.setPadding(new Insets(30,30,50,100));
 		
-		// BorderPane:
-		//.setPadding(new Insets(30,30,57,100));
-		//contactInfoPane.setPadding(new Insets(30,30,101,30));
-		//leftVBox.setPadding(new Insets(30,15,100,10));
-		//vitalsAndHistoryVBox.setPadding(new Insets(15,30,100,100));
 		
 		mainPane.setTop(hboxTop);
 		mainPane.setCenter(gridAllPatientInfo);
@@ -261,9 +299,21 @@ public class DoctorBaseViewPage extends BasePageViewBuilder {
 		//mainPane.setRight(rightPane);
 		mainPane.setBottom(new HBox(errorLabel));
 		
+		butP1.setOnAction(e -> {
+			getInfo(1); // select patient 1 in list
+		});
+		butP2.setOnAction(e -> {
+			getInfo(2); // select patient 2 in list
+		});
+		butP3.setOnAction(e -> {
+			getInfo(3); // select patient 3 in list
+		});
+		butP4.setOnAction(e -> {
+			getInfo(4); // select patient 4 in list
+		});
 		
 		butSave.setOnAction(e -> writeFile()); // writes the patient file based on the information put into the vitals
-		//butLogout.setOnAction(e -> XXXXXXX); // ***** NEED TO GO BACK TO LOGIN SCREEN
+		//logoutButton.setOnAction(e -> XXXXXXX); // ***** NEED TO GO BACK TO LOGIN SCREEN
 	}
 	
 	// function for writing
@@ -275,20 +325,41 @@ public class DoctorBaseViewPage extends BasePageViewBuilder {
 				throw new Exception();
 			}
 			// Generate the file name
-            String fileName = patientLastName + patientFirstName + "_Appointment_Summary.txt";
+            
+			String directoryPath = "PitchforkUnited/Pitchfork United Main Folder/Patient List/" + currentPatientUserName;
+			String fileName = txtPatientInfo.getText() + "_Appointment_Summary.txt";
+            System.out.println("Filename: " + fileName);
 
-            // Create a string with all the CT scan results
+            // Create a string with all the text
             String writeInfo = java.time.LocalDate.now() + "\n" +
             					txtPhysicalExam.getText() + "\n" +
-                                   txtPrescribe.getText() + "\n";
-
+                                   txtPrescribe.getText() + "\n\n";
+            System.out.println("Writing this into the file: \n" + writeInfo);
+            /*
             // Write the CT scan results to the file
             FileWriter fileWriter = new FileWriter(fileName, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(writeInfo);
             bufferedWriter.close();
+            
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)));
+            out.println(writeInfo);
+            out.close();
+            */
+            
+            Path filePath = Paths.get(directoryPath, fileName);
+            
+            try {
+                Files.write(filePath, writeInfo.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE,
+						StandardOpenOption.APPEND);
+                System.out.println("Data written to file successfully.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 			
 			errorLabel.setText("Information Updated!");
+			txtPhysicalExam.setText("");
+			txtPrescribe.setText("");
 		}catch(Exception e) {
 			System.out.print(e);
 			
@@ -297,10 +368,23 @@ public class DoctorBaseViewPage extends BasePageViewBuilder {
 	
 	private void getInfo(int row) {
 		
+		//reset all textboxes to empty before loading
+		txtWeight.setText("");
+		txtHeight.setText("");
+		txtTemp.setText("");
+		txtBloodPressure.setText("");
+		txtConcern.setText("");
+		txtPrevConcern.setText("");
+		txtPrevMed.setText("");
+		txtPrevImmunizations.setText("");
+		txtAllergies.setText("");
+		
 		// get username
 		Node node = getNodeByRowColumnIndex(gridPatientList, row, 0);
 		
 		if(node == null) {
+			errorLabel.setText("No existing patient!");
+			errorLabel.setEllipsisString("No existing patient!");
 			return;
 		}
 		
@@ -310,12 +394,17 @@ public class DoctorBaseViewPage extends BasePageViewBuilder {
 		node = getNodeByRowColumnIndex(gridPatientList, row, 1);
 		
 		if(node == null) {
+			errorLabel.setText("Name missing!");
+			errorLabel.setEllipsisString("Name missing!");
 			return;
 		}
 		
 		String name = ((Label)node).getText();
 		
+		currentPatientUserName = username;
+		
 		String filePath = "PitchforkUnited/Pitchfork United Main Folder/Patient List/" + username + "/" + username + "_Health.txt";
+		String filePathSum = "PitchforkUnited/Pitchfork United Main Folder/Patient List/" + username + "/" + username + "_Appointment_Summary.txt";
 		
 		System.out.println("getInfo: " + filePath);
 		/*
@@ -350,21 +439,21 @@ public class DoctorBaseViewPage extends BasePageViewBuilder {
                     	txtConcern.setText(line);
                         break;
                     case 6:
-                    	//past concerns
-                    	txtPrevConcern.setText(line);
-                        break;
-                    case 7:
                     	//medications
                     	txtPrevMed.setText(line);
                         break;
-                    case 8:
+                    case 7:
                     	//immunizations
                     	txtPrevImmunizations.setText(line);
                         break;
-                    case 9:
+                    case 8:
                     	//allergies
                     	txtAllergies.setText(line);
                         break;
+                    case 9:
+                    	//if needed
+                        break;
+                    
                     default:
                         // Handle additional lines if needed
                         break;
@@ -375,7 +464,17 @@ public class DoctorBaseViewPage extends BasePageViewBuilder {
                 System.err.println("Error reading the file: " + e.getMessage());
             }
 		
-		lblPatientInfo.setText(name);
+		try (BufferedReader reader = new BufferedReader(new FileReader(filePathSum))) {
+			String line;
+            while ((line = reader.readLine()) != null) {
+            	String newLine = txtPrevConcern.getText() + line + "\n";
+            	txtPrevConcern.setText(newLine);
+            }
+		} catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
+		
+		txtPatientInfo.setText(username);
 	}
 	
 	private Node getNodeByRowColumnIndex(GridPane gridPane, int row, int column) {
@@ -389,7 +488,7 @@ public class DoctorBaseViewPage extends BasePageViewBuilder {
         return null; // Node not found
     }
 	
-private void populatePatientList() {
+	private void populatePatientList() {
 		
         String parentFolderPath = "PitchforkUnited/Pitchfork United Main Folder/Patient List"; // Specify the path to the parent folder
 
