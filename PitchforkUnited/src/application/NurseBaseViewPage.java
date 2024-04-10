@@ -6,6 +6,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -77,6 +81,8 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 				patientWeight, patientHeight, patientTemperature, patientBloodPressure,
 				patientPastConcerns, patientMedications, patientImmunizations,
 				patientAllergies, patientConcerns;
+	
+	String currentPatientUserName = "";
 	
 	//Ints:
 	protected int dateOfBirth, phoneNumber;
@@ -201,7 +207,7 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		topHBox.getChildren().addAll(logoutButton, welcomeNurseLabel);
 		
 		HBox tempHBox = new HBox(25);
-		tempHBox.getChildren().addAll(patientConcernField, saveButton);
+		tempHBox.getChildren().addAll(patientConcernField, saveButton, errorLabel);
 		
 		
 		
@@ -258,19 +264,23 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		saveButton.setOnAction(e -> writeFile()); // writes the patient file based on the information put into the vitals
 		//logoutButton.setOnAction(e -> XXXXXXX); // ***** NEED TO GO BACK TO LOGIN SCREEN
 		patient1button.setOnAction(e -> {
-			getInfo(1);
+			getInfo(1); // select patient 1 in list
 		});
 		patient2button.setOnAction(e -> {
-			getInfo(2);
+			getInfo(2); // select patient 2 in list
 		});
 		patient3button.setOnAction(e -> {
-			getInfo(3);
+			getInfo(3); // select patient 3 in list
 		});
 		patient4button.setOnAction(e -> {
-			getInfo(4);
+			getInfo(4); // seelct patient 4 in list
 		});
 		patient5button.setOnAction(e -> {
-			getInfo(5);
+			getInfo(5); // select patient 5 in list
+		});
+		logoutButton.setOnAction(e -> {
+			System.exit(0); // exit program
+			// can change here to go back to login screen...
 		});
 	}
 	
@@ -282,38 +292,63 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 				errorLabel.setText("At least one field is empty!");
 				errorLabel.setEllipsisString("At least one field is empty!");
 				throw new Exception();
+			} if(currentPatientUserName == "" ) {
+				errorLabel.setText("Error: select patient!");
+				errorLabel.setEllipsisString("Error: select patient!");
+				throw new Exception();
 			}
-			// Generate the file name
-            String fileName = patientLastName + patientFirstName + "Vitals.txt";
 
             // Create a string with all the CT scan results
             String vitals = weightField.getText() + "\n" +
                                    heightField.getText() + "\n" +
                                    temperatureField.getText() + "\n" +
                                    bloodPressureField.getText() + "\n" +
-                                   patientConcernField.getText() + "\n";
+                                   patientConcernField.getText() + "\n" +
+                                   patientConcernField.getText() + " - " + pastConcernsField.getText() + "\n" +  // add to past concerns
+                                   medicationsField.getText() + "\n" +
+                                   immunizationsField.getText() + "\n" +
+                                   medicationsField.getText() + "\n";
 
             // Write the CT scan results to the file
-            FileWriter fileWriter = new FileWriter(fileName);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(vitals);
-            bufferedWriter.close();
-			
-			errorLabel.setText("Information Updated!");
+//            FileWriter fileWriter = new FileWriter(fileName);
+//            System.out.println("Current: " + fileName);
+//            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+//            bufferedWriter.write(vitals);
+//            bufferedWriter.close();
+            
+            // DELETE THE OLD FILE
+            String directoryPath = "PitchforkUnited/Pitchfork United Main Folder/Patient List/" + currentPatientUserName;
+            
+            String fileName = currentPatientUserName + "_Health.txt";
+
+            File fileToDelete = new File(directoryPath + fileName);
+
+            if (fileToDelete.exists()) {
+                if (fileToDelete.delete()) {
+                    System.out.println("File deleted successfully: " + fileToDelete.getName());
+                } else {
+                    System.err.println("Failed to delete file: " + fileToDelete.getName());
+                }
+            } else {
+                //System.err.println("File does not exist: " + fileToDelete.getName());
+            	// file does not exist --> good case!
+            }
+            
+         // CREATE THE NEW FILE
+        Path filePath = Paths.get(directoryPath, fileName);
+        
+        try {
+            Files.write(filePath, vitals.getBytes(StandardCharsets.UTF_8));
+            System.out.println("Data written to file successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+		errorLabel.setText("Information Updated!");
 		}catch(Exception e) {
 			System.out.print(e);
 			
 		}
-	}
-	
-	private void saveInfo() {
-		/*
-		 * TO IMPLEMENT.....
-		 * 
-		 * When a button is pressed, then save to the patient's health file
-		 * If no such file exists then create one and fill in basic history information
-		 * 
-		 */
 	}
 	
 	private void getInfo(int row) {
@@ -322,6 +357,8 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		Node node = getNodeByRowColumnIndex(patientList, row, 0);
 		
 		if(node == null) {
+			errorLabel.setText("No existing patient!");
+			errorLabel.setEllipsisString("No existing patient!");
 			return;
 		}
 		
@@ -331,14 +368,18 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		node = getNodeByRowColumnIndex(patientList, row, 1);
 		
 		if(node == null) {
+			errorLabel.setText("Name missing!");
+			errorLabel.setEllipsisString("Name missing!");
 			return;
 		}
 		
 		String name = ((Label)node).getText();
 		
+		currentPatientUserName = username;
+		
 		String filePath = "PitchforkUnited/Pitchfork United Main Folder/Patient List/" + username + "/" + username + "_Health.txt";
 		
-		System.out.println("getInfo: " + filePath);
+		//System.out.println("getInfo: " + filePath);
 		/*
 		 * Function will need to be implemented to read the patient files and pull the relevant information
 		 * Will be pulled from patient file where lines will be formatted with information
@@ -347,7 +388,7 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
             String line;
             int lineNumber = 1;
             while ((line = reader.readLine()) != null) {
-            	System.out.println(line);
+            	//System.out.println(line);
                 // Process each line based on its position
                 switch (lineNumber) {
                     case 1:
@@ -418,7 +459,7 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
         File parentFolder = new File(parentFolderPath);
         
         String currentDirectory = System.getProperty("user.dir");
-        System.out.println("Current directory: " + currentDirectory);
+        //System.out.println("Current directory: " + currentDirectory);
 
         // Check if the specified path exists and is a directory
         if (parentFolder.exists() && parentFolder.isDirectory()) {
