@@ -9,7 +9,7 @@ import javafx.scene.layout.BorderPane;
 public class Main extends Application {
 	
 	public void start(Stage primaryStage) {
-		String userStatus = "Patient";
+		String userStatus = "Nurse";
 			BorderPane root = new BorderPane();
 			BasePageViewBuilder basePageViewBuilder = new BasePageViewBuilder(userStatus, primaryStage, "ExamplePatient");
 			root.getChildren().add(basePageViewBuilder);

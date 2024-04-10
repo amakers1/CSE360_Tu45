@@ -43,7 +43,7 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 	protected TextField weightField, heightField, temperatureField, bloodPressureField;
 	
 	//Buttons:
-	protected Button saveButton, logoutButton, messagePortalButton;
+	protected Button saveButton, logoutButton;
 	
 	//StackPanes:
 	protected StackPane contactInfoPane;
@@ -79,6 +79,7 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		this.nurseUserName = nurseUserName;
 	}
 	
+	@Override
 	public void buildPage() {
 		//Intitalizing Variables:
 		
@@ -103,6 +104,8 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		
 		historyTitleLabel = new Label("History");
 		historyTitleLabel.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
+		
+		patientConcernsLabel = new Label("Patient Concerns");
 		
 		// PATIENT VITALS
 		patientNameLabel = new Label("FIRST LAST");
@@ -148,7 +151,7 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		saveButton = new Button("Save");
 		//updateButton.setEllipsisString("Update");
 		logoutButton =  new Button("Logout");
-		messagePortalButton = new Button("Message Portal");
+		//messagePortalButton = new Button("Message Portal");
 		
 		//TextAreas:
 		patientConcernField = new TextArea();
@@ -157,21 +160,19 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		immunizationsField = new TextArea();
 		allergiesField = new TextArea();
 		
-		//StackPanes:
-		contactInfoPane = new StackPane();
-		
+				
 		//GridPanes:
 		patientVitals = new GridPane();
 		patientVitals.setVgap(75);
 		patientVitals.setHgap(250);
 		patientVitals.addColumn(0, patientNameLabel, weightLabel, heightLabel, temperatureLabel, bloodPressureLabel);
-		patientVitals.addColumn(1, patientNameLabel, weightField, heightField, temperatureField, bloodPressureField);
+		patientVitals.addColumn(1,  weightField, heightField, temperatureField, bloodPressureField);//patientNameLabel,
 		patientHistory = new GridPane();
 		patientHistory.setVgap(50);
 		patientHistory.setHgap(250);
 		patientHistory.addColumn(0, pastConcernsLabel, medicationsLabel, immunizationsLabel, allergiesLabel);
 		patientHistory.addRow(1, pastConcernsField, medicationsField, immunizationsField, allergiesField);
-		
+		patientList = new GridPane();
 		//HBoxs:
 		vitalsAndHistoryHBox = new HBox(150);
 		vitalsAndHistoryHBox.getChildren().addAll(patientVitals, patientHistory);
@@ -182,7 +183,7 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		
 		//VBoxs:
 		vitalsAndHistoryVBox = new VBox(50);
-		vitalsAndHistoryHBox.getChildren().addAll(vitalsAndHistoryHBox, patientConcernsLabel, patientConcernField, saveButton);
+		vitalsAndHistoryVBox.getChildren().addAll(vitalsAndHistoryHBox, patientConcernsLabel, patientConcernField, saveButton);
 		
 		leftVBox = new VBox();
 		leftVBox.getChildren().addAll(patientsTitleLabel, patientList, messagePortalButton, imageView);
