@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,6 +29,7 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 	
 	//Variables:
 	//***********************
+	boolean patientIsSelected = false;
 	
 	//VBoxs:
 	protected VBox vitalsAndHistoryVBox, leftVBox;
@@ -49,7 +51,7 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 	protected TextField weightField, heightField, temperatureField, bloodPressureField;
 	
 	//Buttons:
-	protected Button saveButton, logoutButton;
+	protected Button saveButton, logoutButton, patient1button, patient2button, patient3button, patient4button, patient5button;
 	
 	//StackPanes:
 	protected StackPane contactInfoPane;
@@ -167,9 +169,13 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		//TextAreas:
 		patientConcernField = new TextArea();
 		pastConcernsField = new TextArea();
+		pastConcernsField.setEditable(false);
 		medicationsField = new TextArea();
+		medicationsField.setEditable(false);
 		immunizationsField = new TextArea();
+		immunizationsField.setEditable(false);
 		allergiesField = new TextArea();
+		allergiesField.setEditable(false);
 		
 				
 		//GridPanes:
@@ -200,12 +206,18 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		
 		
 		// GRIDPANE:
+		patient1button = new Button("Select patient");
+		patient2button = new Button("Select patient");
+		patient3button = new Button("Select patient");
+		patient4button = new Button("Select patient");
+		patient5button = new Button("Select patient");
+		
 		// Set up patient list
 		patientList = new GridPane();
 		patientList.addColumn(0, new Label("User Name"));
 		patientList.addColumn(1, new Label("Name"));
 		patientList.addColumn(2, new Label("Date of Birth"));
-		patientList.addColumn(3, new Label(""), new Button("Select patient"), new Button("Select patient"), new Button("Select patient"), new Button("Select patient"));
+		patientList.addColumn(3, new Label(""), patient1button, patient2button, patient3button, patient4button, patient5button);
 		populatePatientList();
 		
 		patientList.setStyle("-fx-background-color: white; -fx-grid-lines-visible: false; -fx-padding: 50px;");
@@ -245,6 +257,21 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		
 		saveButton.setOnAction(e -> writeFile()); // writes the patient file based on the information put into the vitals
 		//logoutButton.setOnAction(e -> XXXXXXX); // ***** NEED TO GO BACK TO LOGIN SCREEN
+		patient1button.setOnAction(e -> {
+			getInfo(1);
+		});
+		patient2button.setOnAction(e -> {
+			getInfo(2);
+		});
+		patient3button.setOnAction(e -> {
+			getInfo(3);
+		});
+		patient4button.setOnAction(e -> {
+			getInfo(4);
+		});
+		patient5button.setOnAction(e -> {
+			getInfo(5);
+		});
 	}
 	
 	// function for writing
@@ -279,12 +306,109 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		}
 	}
 	
-	private void getInfo() {
+	private void saveInfo() {
+		/*
+		 * TO IMPLEMENT.....
+		 * 
+		 * When a button is pressed, then save to the patient's health file
+		 * If no such file exists then create one and fill in basic history information
+		 * 
+		 */
+	}
+	
+	private void getInfo(int row) {
+		
+		// get username
+		Node node = getNodeByRowColumnIndex(patientList, row, 0);
+		
+		if(node == null) {
+			return;
+		}
+		
+		String username = ((Label)node).getText();
+		
+		//get name
+		node = getNodeByRowColumnIndex(patientList, row, 1);
+		
+		if(node == null) {
+			return;
+		}
+		
+		String name = ((Label)node).getText();
+		
+		String filePath = "PitchforkUnited/Pitchfork United Main Folder/Patient List/" + username + "/" + username + "_Health.txt";
+		
+		System.out.println("getInfo: " + filePath);
 		/*
 		 * Function will need to be implemented to read the patient files and pull the relevant information
 		 * Will be pulled from patient file where lines will be formatted with information
 		 */
+		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            int lineNumber = 1;
+            while ((line = reader.readLine()) != null) {
+            	System.out.println(line);
+                // Process each line based on its position
+                switch (lineNumber) {
+                    case 1:
+                        //weight
+                    	weightField.setText(line);
+                        break;
+                    case 2:
+                    	//height
+                    	heightField.setText(line);
+                        break;
+                    case 3:
+                    	//temp
+                    	temperatureField.setText(line);
+                        break;
+                    case 4:
+                    	//blood pressure
+                    	bloodPressureField.setText(line);
+                        break;
+                    case 5:
+                    	//Current concerns
+                    	patientConcernField.setText(line);
+                        break;
+                    case 6:
+                    	//past concerns
+                    	pastConcernsField.setText(line);
+                        break;
+                    case 7:
+                    	//medications
+                    	medicationsField.setText(line);
+                        break;
+                    case 8:
+                    	//immunizations
+                    	immunizationsField.setText(line);
+                        break;
+                    case 9:
+                    	//allergies
+                    	allergiesField.setText(line);
+                        break;
+                    default:
+                        // Handle additional lines if needed
+                        break;
+                }
+                lineNumber++;
+            }
+            } catch (IOException e) {
+                System.err.println("Error reading the file: " + e.getMessage());
+            }
+		
+		patientNameLabel.setText(name);
 	}
+	
+	private Node getNodeByRowColumnIndex(GridPane gridPane, int row, int column) {
+        for (Node node : gridPane.getChildren()) {
+            Integer rowIndex = GridPane.getRowIndex(node);
+            Integer columnIndex = GridPane.getColumnIndex(node);
+            if (rowIndex != null && columnIndex != null && rowIndex == row && columnIndex == column) {
+                return node;
+            }
+        }
+        return null; // Node not found
+    }
 	
 	private void populatePatientList() {
 		
