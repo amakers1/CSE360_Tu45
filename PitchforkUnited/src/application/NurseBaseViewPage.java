@@ -1,6 +1,7 @@
 package application;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 
 import javafx.geometry.Insets;
@@ -283,5 +284,23 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 	
 	private void populatePatientList() {
 		
+        String parentFolderPath = "../../Pitchfork United Main Folder/Patient List"; // Specify the path to the parent folder
+
+        // Create a File object for the parent folder
+        File parentFolder = new File(parentFolderPath);
+
+        // Check if the specified path exists and is a directory
+        if (parentFolder.exists() && parentFolder.isDirectory()) {
+            // Get an array of File objects representing the subdirectories
+            File[] subdirectories = parentFolder.listFiles(File::isDirectory);
+            int i = 1;
+            // Iterate through each subdirectory and print its name
+            for (File subdirectory : subdirectories) {
+                patientList.add(new Label(subdirectory.getName()), 0, i);
+                i++;
+            }
+        } else {
+            System.out.println("Invalid folder path or not a directory.");
+        }
 	}
 }
