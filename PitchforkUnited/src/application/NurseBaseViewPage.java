@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class NurseBaseViewPage extends BasePageViewBuilder {
@@ -86,15 +88,15 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		//Images:
 		image = new Image("ASU_Hostpial_Logo_2.png");
 		imageView  = new ImageView(image);
-		imageView.setFitHeight(350);
-		imageView.setFitWidth(500);
+		imageView.setFitHeight(250);
+		imageView.setFitWidth(400);
 		
 		
 		//Labels:
 		
 		// TOP SIDE
-		welcomeNurseLabel = new Label("Welcome Nurse");
-		welcomeNurseLabel.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
+		welcomeNurseLabel = new Label("Welcome Nurse " + nurseUserName);
+		welcomeNurseLabel.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 65; -fx-text-fill: #FFC627");
 		
 		patientsTitleLabel = new Label("Patients");
 		patientsTitleLabel.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
@@ -106,6 +108,7 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		historyTitleLabel.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
 		
 		patientConcernsLabel = new Label("Patient Concerns");
+		patientConcernsLabel.setStyle("-fx-font-family: Times New Roman; -fx-font-size: 25; -fx-text-fill: #FFC627");
 		
 		// PATIENT VITALS
 		patientNameLabel = new Label("FIRST LAST");
@@ -149,8 +152,12 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		
 		//Buttons:
 		saveButton = new Button("Save");
+		saveButton.setPrefSize(200, 250);
+		saveButton.setStyle("-fx-background-color: #FFC627");
 		//updateButton.setEllipsisString("Update");
 		logoutButton =  new Button("Logout");
+		logoutButton.setPrefSize(100, 50);
+		logoutButton.setStyle("-fx-background-color: #FFC627");
 		//messagePortalButton = new Button("Message Portal");
 		
 		//TextAreas:
@@ -164,36 +171,60 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		//GridPanes:
 		patientVitals = new GridPane();
 		patientVitals.setVgap(75);
-		patientVitals.setHgap(250);
+		patientVitals.setHgap(50);
 		patientVitals.addColumn(0, patientNameLabel, weightLabel, heightLabel, temperatureLabel, bloodPressureLabel);
-		patientVitals.addColumn(1,  weightField, heightField, temperatureField, bloodPressureField);//patientNameLabel,
+		patientVitals.addColumn(1, new Label(""), weightField, heightField, temperatureField, bloodPressureField);//patientNameLabel,
 		patientHistory = new GridPane();
 		patientHistory.setVgap(50);
-		patientHistory.setHgap(250);
+		patientHistory.setHgap(50);
 		patientHistory.addColumn(0, pastConcernsLabel, medicationsLabel, immunizationsLabel, allergiesLabel);
-		patientHistory.addRow(1, pastConcernsField, medicationsField, immunizationsField, allergiesField);
+		patientHistory.addColumn(1, pastConcernsField, medicationsField, immunizationsField, allergiesField);
 		patientList = new GridPane();
+		
+		
 		//HBoxs:
-		vitalsAndHistoryHBox = new HBox(150);
+		vitalsAndHistoryHBox = new HBox(15);
 		vitalsAndHistoryHBox.getChildren().addAll(patientVitals, patientHistory);
+		//vitalsAndHistoryHBox.setMaxWidth(500);
 		
 		topHBox = new HBox(150);
 		topHBox.getChildren().addAll(logoutButton, welcomeNurseLabel);
 		
+		HBox tempHBox = new HBox(25);
+		tempHBox.getChildren().addAll(patientConcernField, saveButton);
+		
+		
+		
+		// GRIDPANE:
+		// Set up patient list
+		patientList = new GridPane();
+		patientList.addColumn(0, new Label("Last Name"), new Label("Name"), new Label("Name"), new Label("Name"), new Label("Name"));
+		patientList.addColumn(1, new Label("First Name"), new Label("Name"), new Label("Name"), new Label("Name"), new Label("Name"));
+		patientList.addColumn(2, new Label("Date of Birth"), new Label("DOB"), new Label("DOB"), new Label("DOB"), new Label("DOB"));
+		patientList.addColumn(3, new Label(""), new Button("Select patient"), new Button("Select patient"), new Button("Select patient"), new Button("Select patient"));
+		
+		patientList.setStyle("-fx-background-color: white; -fx-grid-lines-visible: false; -fx-padding: 50px;");
+		patientList.setAlignment(Pos.CENTER);
+
+		patientList.setHgap(10); // Horizontal spacing
+		patientList.setVgap(10); // Vertical spacing
+		
+		
 		
 		//VBoxs:
-		vitalsAndHistoryVBox = new VBox(50);
-		vitalsAndHistoryVBox.getChildren().addAll(vitalsAndHistoryHBox, patientConcernsLabel, patientConcernField, saveButton);
+		vitalsAndHistoryVBox = new VBox(10);
+		vitalsAndHistoryVBox.getChildren().addAll(vitalsAndHistoryHBox, patientConcernsLabel, tempHBox);
 		
 		leftVBox = new VBox();
 		leftVBox.getChildren().addAll(patientsTitleLabel, patientList, messagePortalButton, imageView);
+		leftVBox.setAlignment(Pos.CENTER);
+		leftVBox.setSpacing(20); // vertical spacing
 		
-		// BorderPane
-		
-		topHBox.setPadding(new Insets(30,100,57,100));
+		// BorderPane:
+		topHBox.setPadding(new Insets(30,30,57,100));
 		//contactInfoPane.setPadding(new Insets(30,30,101,30));
-		leftVBox.setPadding(new Insets(100,100,100,10));
-		vitalsAndHistoryVBox.setPadding(new Insets(100,57,100,100));
+		leftVBox.setPadding(new Insets(30,15,100,10));
+		vitalsAndHistoryVBox.setPadding(new Insets(15,30,100,100));
 		
 		mainPane.setTop(topHBox);
 		//mainPane.setCenter(contactInfoPane);
@@ -209,7 +240,6 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		
 		saveButton.setOnAction(e -> writeFile()); // writes the patient file based on the information put into the vitals
 		//logoutButton.setOnAction(e -> XXXXXXX); // ***** NEED TO GO BACK TO LOGIN SCREEN
-		//messagePortalButton.setOnAction(e -> XXXXXXXXXX); // ******* NEED TO OPEN THE MESSAGE PORTAL
 	}
 	
 	// function for writing
@@ -249,5 +279,9 @@ public class NurseBaseViewPage extends BasePageViewBuilder {
 		 * Function will need to be implemented to read the patient files and pull the relevant information
 		 * Will be pulled from patient file where lines will be formatted with information
 		 */
+	}
+	
+	private void populatePatientList() {
+		
 	}
 }
