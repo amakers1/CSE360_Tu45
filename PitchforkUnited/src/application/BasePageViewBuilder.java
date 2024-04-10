@@ -59,6 +59,8 @@ public class BasePageViewBuilder extends HBox{
 				mainPane.getChildren().add(nurseViewPage);
 			}else if(userStatus.equals("Doctor")){//doctor build is selected
 				//setDoctorScreen;
+				DoctorBaseViewPage doctorViewPage = new DoctorBaseViewPage(userStatus, primaryStage, userName);
+				mainPane.getChildren().add(doctorViewPage);
 			}else{
 				return;
 			}
